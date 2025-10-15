@@ -2,6 +2,7 @@ package com.example.lab_week_06
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab_week_06.model.CatModel
 
@@ -12,6 +13,48 @@ class CatAdapter(
 ) : RecyclerView.Adapter<CatViewHolder>() {
 
     private val cats = mutableListOf<CatModel>()
+
+    // ====== Swipe-to-delete support ======
+    fun removeItem(position: Int) {
+        if (position in 0 until cats.size) {
+            cats.removeAt(position)
+            notifyItemRemoved(position)
+        }
+    }
+
+    inner class SwipeToDeleteCallback :
+        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ) = false
+
+        override fun getMovementFlags(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder
+        ): Int {
+            return if (viewHolder is CatViewHolder) {
+                makeMovementFlags(
+                    ItemTouchHelper.ACTION_STATE_IDLE,
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                ) or makeMovementFlags(
+                    ItemTouchHelper.ACTION_STATE_SWIPE,
+                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                )
+            } else 0
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.bindingAdapterPosition
+            removeItem(position)
+        }
+    }
+
+    // Expose instance untuk di-attach dari Activity
+    val swipeToDeleteCallback = SwipeToDeleteCallback()
+    // =====================================
 
     fun setData(newCats: List<CatModel>) {
         cats.clear()

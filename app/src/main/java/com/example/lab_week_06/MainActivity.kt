@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+        // Attach swipe helper
+        val itemTouchHelper = ItemTouchHelper(catAdapter.swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        // >= 10 items
         catAdapter.setData(
             listOf(
                 CatModel(Gender.Male, CatBreed.BalineseJavanese, "Fred", "Silent and deadly",
@@ -37,7 +42,21 @@ class MainActivity : AppCompatActivity() {
                 CatModel(Gender.Female, CatBreed.ExoticShorthair, "Wilma", "Cuddly assassin",
                     "https://cdn2.thecatapi.com/images/egv.jpg"),
                 CatModel(Gender.Unknown, CatBreed.AmericanCurl, "Curious George", "Award winning investigator",
-                    "https://cdn2.thecatapi.com/images/bar.jpg")
+                    "https://cdn2.thecatapi.com/images/bar.jpg"),
+                CatModel(Gender.Female, CatBreed.ExoticShorthair, "Mochi", "Sleeps all day",
+                    "https://cdn2.thecatapi.com/images/MTY3ODIyMQ.jpg"),
+                CatModel(Gender.Male, CatBreed.AmericanCurl, "Shadow", "Stealth mover",
+                    "https://cdn2.thecatapi.com/images/MTc5ODIyNQ.jpg"),
+                CatModel(Gender.Female, CatBreed.BalineseJavanese, "Luna", "Purr machine",
+                    "https://cdn2.thecatapi.com/images/9oo.jpg"),
+                CatModel(Gender.Male, CatBreed.ExoticShorthair, "Tiger", "Loves cardboard boxes",
+                    "https://cdn2.thecatapi.com/images/MTY3ODIyNg.jpg"),
+                CatModel(Gender.Unknown, CatBreed.AmericanCurl, "Pixel", "Debugger of yarn",
+                    "https://cdn2.thecatapi.com/images/8f1.jpg"),
+                CatModel(Gender.Female, CatBreed.BalineseJavanese, "Nori", "Treat hunter",
+                    "https://cdn2.thecatapi.com/images/MTY3ODIyMg.jpg"),
+                CatModel(Gender.Male, CatBreed.ExoticShorthair, "Ziggy", "Window watcher",
+                    "https://cdn2.thecatapi.com/images/MTY3ODIyNA.jpg")
             )
         )
     }
